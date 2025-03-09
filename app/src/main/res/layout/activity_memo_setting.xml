@@ -8,7 +8,7 @@
     tools:context=".MemoSetting">
 
     <LinearLayout
-        android:id="@+id/navigationBar"
+        android:id="@+id/navigationbar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@color/grey"

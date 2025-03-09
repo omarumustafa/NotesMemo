@@ -3,4 +3,15 @@
     <string name="display_list_of_notes">display list of notes</string>
     <string name="display_settings">display settings</string>
     <string name="saveButton">SAVE</string>
+    <string name="textMemoTitle">Title:</string>
+    <string name="editMemoTitle">Enter memo title:\n</string>
+    <string name="textMemoDesc">Memo Description:</string>
+    <string name="editMemoDesc">Enter memo description</string>
+    <string name="textMemoPriority">Priority Selection:</string>
+    <string name="radioButtonMedium">Medium Priority</string>
+    <string name="radioButtonLow">Low Priority</string>
+    <string name="radioButtonHigh">High Priority</string>
+    <string name="dateButton">CHANGE</string>
+    <string name="textDate">Date:</string>
+    <string name="textChangedDate">TextView</string>
 </resources>
