@@ -2,10 +2,10 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+    android:id="@+id/memoList"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MemoList">
 
     <LinearLayout
         android:id="@+id/navigationBar"
@@ -32,29 +32,6 @@
             android:layout_weight="1"
             android:contentDescription="@string/display_settings"
             app:srcCompat="@mipmap/settingsicon_foreground" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/toolbar"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@color/grey"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <Button
-            android:id="@+id/saveButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="300dp"
-            android:layout_marginBottom="8dp"
-            android:layout_weight="1"
-            android:text="@string/saveButton" />
 
     </LinearLayout>
 
