@@ -1,9 +1,11 @@
 package com.example.memoapp;
 
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.RadioButton;
-
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -19,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         setRadioButtonColor();
+        listImageButton();
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -36,5 +39,15 @@ public class MainActivity extends AppCompatActivity {
 
         radioButton = findViewById(R.id.radioButtonHigh);
         radioButton.setButtonTintList(ColorStateList.valueOf(getResources().getColor(R.color.red)));
+    }
+
+    private void listImageButton() {
+        ImageButton ibList = findViewById(R.id.listImageButton);
+        ibList.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, MemoList.class);
+                startActivity(intent);
+            }
+        });
     }
 }
