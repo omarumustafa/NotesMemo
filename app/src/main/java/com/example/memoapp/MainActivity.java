@@ -1,28 +1,24 @@
 package com.example.memoapp;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
-import android.text.format.DateFormat;
 import android.view.View;
-import android.widget.Button;
-import android.widget.CalendarView;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
-import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-import androidx.fragment.app.FragmentManager;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity implements DatePickerDialog.SaveDateListener {
+public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +28,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
         setRadioButtonColor();
         listImageButton();
-        showDatePickerDialog();
+        autoFillDate();
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -62,21 +58,15 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         });
     }
 
-    @Override
-    public void saveDate(Calendar selectedDate) {
-        TextView textChangedDate = findViewById(R.id.textChangedDate);
-        textChangedDate.setText(DateFormat.format("MM/dd/yyyy", selectedDate.getTime()));
-    }
+    private void autoFillDate() {
+        EditText editDate = findViewById(R.id.editDate);
 
-    public void showDatePickerDialog() {
-        Button dateButton = findViewById(R.id.dateButton);
-        dateButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentManager fm = getSupportFragmentManager();
-                DatePickerDialog datePickerDialog = new DatePickerDialog();
-                datePickerDialog.show(fm, "DatePick");
-            }
-        });
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        String date = dateFormat.format(calendar.getTime());
+
+        editDate.setText(date);
     }
 }
+
+

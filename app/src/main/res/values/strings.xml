@@ -13,7 +13,7 @@
     <string name="radioButtonHigh">High Priority</string>
     <string name="dateButton">CHANGE</string>
     <string name="textDate">Date:</string>
-    <string name="textChangedDate">TextView</string>
+    <string name="EnterDate">Enter Date:</string>
     <string name="cancelButton">Cancel</string>
-    <string name="okButton">Ok</string>
+    <string name="okButton">OK</string>
 </resources>
