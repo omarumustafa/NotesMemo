@@ -1,9 +1,11 @@
 package com.example.memoapp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
@@ -35,6 +37,11 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        initSaveButton();
+
+
+
     }
 
     private void setRadioButtonColor() {
@@ -67,6 +74,36 @@ public class MainActivity extends AppCompatActivity {
 
         editDate.setText(date);
     }
+
+    private void initSaveButton(){
+        Button saveButton = findViewById(R.id.saveButton);
+
+        saveButton.setOnClickListener(v ->{
+            Memo m = new Memo();
+            MemoDataSource dataSource = new MemoDataSource(MainActivity.this);
+
+            dataSource.open();
+
+            String title = ((EditText)findViewById(R.id.editMemoTitle)).getText().toString();
+            String memo = ((EditText)findViewById(R.id.editMemoDesc)).getText().toString();
+            String date = ((EditText)findViewById(R.id.editDate)).getText().toString();
+
+            m.setTitle(title);
+            m.setMemoText(memo);
+            m.setDate(date);
+
+            dataSource.insertMemo(m);
+
+            dataSource.close();
+
+
+        });
+
+
+    }
+
+
+
 }
 
 

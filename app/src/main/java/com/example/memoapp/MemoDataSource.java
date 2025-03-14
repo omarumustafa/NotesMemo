@@ -43,7 +43,7 @@ public class MemoDataSource {
             }
         }
         catch (Exception e){
-            Log.e("DATABASE ERROR", "ERROR INSERTING TO DATABASE");
+            Log.e("DATABASE ERROR", "ERROR INSERTING TO DATABASE  " + e.getMessage());
         }
         return didSucceed;
     }
