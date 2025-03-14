@@ -35,6 +35,7 @@ public class MemoDataSource {
             initialValues.put("memo", m.getMemoText());
             //this is going to need to be changed later
             initialValues.put("date", m.getDate());
+            initialValues.put("priority", m.getPriority());
 
             long rowId = database.insert("memo", null, initialValues);
             if (rowId > 0) {
@@ -58,6 +59,7 @@ public class MemoDataSource {
             updateValues.put("memo", m.getMemoText());
             //this is going to need to be changed later
             updateValues.put("date", m.getDate());
+            updateValues.put("priority", m.getPriority());
 
             didSucceed = database.update("contact", updateValues, "_id=" + rowId, null) > 0;
         }
@@ -81,5 +83,4 @@ public class MemoDataSource {
         }
         return lastId;
     }
-
 }

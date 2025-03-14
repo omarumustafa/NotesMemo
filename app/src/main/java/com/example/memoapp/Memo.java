@@ -2,7 +2,7 @@ package com.example.memoapp;
 
 public class Memo {
 
-    public Memo(){
+    public Memo() {
         memoID = -1;
     }
 
@@ -13,6 +13,8 @@ public class Memo {
     //The dates going to have to be changed to a later value
     //When we implement the CalendarView
     public String date;
+
+    public String priority;
 
     private int memoID;
 
@@ -46,5 +48,13 @@ public class Memo {
 
     public void setMemoID(int memoID) {
         this.memoID = memoID;
+    }
+
+    public String getPriority() {
+        return priority;
+    }
+
+    public void setPriority(String priority) {
+        this.priority = priority;
     }
 }

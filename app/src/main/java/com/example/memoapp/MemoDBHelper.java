@@ -15,7 +15,8 @@ public class MemoDBHelper extends SQLiteOpenHelper {
             "CREATE TABLE memo (_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     "title TEXT NOT NULL, " +
                     "memo TEXT NOT NULL, " +
-                    "date TEXT NOT NULL);";
+                    "date TEXT NOT NULL," +
+                    "priority TEXT NOT NULL);";
 
     public MemoDBHelper (Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);

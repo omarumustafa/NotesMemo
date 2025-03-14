@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         EditText editDate = findViewById(R.id.editDate);
 
         Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy", Locale.getDefault());
         String date = dateFormat.format(calendar.getTime());
 
         editDate.setText(date);
@@ -87,10 +87,21 @@ public class MainActivity extends AppCompatActivity {
             String title = ((EditText)findViewById(R.id.editMemoTitle)).getText().toString();
             String memo = ((EditText)findViewById(R.id.editMemoDesc)).getText().toString();
             String date = ((EditText)findViewById(R.id.editDate)).getText().toString();
+            RadioButton low = findViewById(R.id.radioButtonLow);
+            RadioButton medium = findViewById(R.id.radioButtonMedium);
+            RadioButton high = findViewById(R.id.radioButtonHigh);
 
             m.setTitle(title);
             m.setMemoText(memo);
             m.setDate(date);
+
+            if(low.isChecked()){
+                m.setPriority("low");
+            } else if(medium.isChecked()){
+                m.setPriority("medium");
+            } else if (high.isChecked()){
+                m.setPriority("high");
+            }
 
             dataSource.insertMemo(m);
 
@@ -98,12 +109,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         });
-
-
     }
-
-
-
 }
 
 
