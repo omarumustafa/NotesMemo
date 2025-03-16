@@ -8,6 +8,56 @@
     tools:context=".MemoSetting">
 
     <LinearLayout
+        android:id="@+id/sortOptionsLayout"
+        android:layout_width="416dp"
+        android:layout_height="198dp"
+        android:layout_marginTop="56dp"
+        android:orientation="vertical"
+        android:padding="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <!-- Label for Sorting Options -->
+        <TextView
+            android:id="@+id/sortLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="4dp"
+            android:text="Sort"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <!-- Sorting Options -->
+        <RadioGroup
+            android:id="@+id/sortOptionsGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RadioButton
+                android:id="@+id/sortByPriority"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Priority" />
+
+            <RadioButton
+                android:id="@+id/sortByDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Date" />
+
+            <RadioButton
+                android:id="@+id/sortBySubject"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Subject" />
+        </RadioGroup>
+
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/navigationbar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
         setRadioButtonColor();
         listImageButton();
+        memoSettingButton();
         autoFillDate();
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -60,6 +61,16 @@ public class MainActivity extends AppCompatActivity {
         ibList.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, MemoList.class);
+                startActivity(intent);
+            }
+        });
+    }
+    private void memoSettingButton(){
+        ImageButton msButton = findViewById(R.id.settingsImageButton);
+        msButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, MemoSetting.class);
                 startActivity(intent);
             }
         });
