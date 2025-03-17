@@ -8,13 +8,15 @@ import android.database.sqlite.SQLiteDatabase;
 import android.media.session.PlaybackState;
 import android.util.Log;
 
+import java.util.ArrayList;
+
 public class MemoDataSource {
 
     private SQLiteDatabase database;
 
     private MemoDBHelper dbHelper;
 
-    public MemoDataSource(Context context){
+    public MemoDataSource(Context context) {
         dbHelper = new MemoDBHelper(context);
     }
 
@@ -22,11 +24,11 @@ public class MemoDataSource {
         database = dbHelper.getWritableDatabase();
     }
 
-    public void close(){
+    public void close() {
         dbHelper.close();
     }
 
-    public boolean insertMemo(Memo m){
+    public boolean insertMemo(Memo m) {
         boolean didSucceed = false;
         try {
             ContentValues initialValues = new ContentValues();
@@ -42,16 +44,15 @@ public class MemoDataSource {
                 m.setMemoID((int) rowId);
                 didSucceed = true;
             }
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             Log.e("DATABASE ERROR", "ERROR INSERTING TO DATABASE  " + e.getMessage());
         }
         return didSucceed;
     }
 
-    public boolean updateMemo(Memo m){
+    public boolean updateMemo(Memo m) {
         boolean didSucceed = false;
-        try{
+        try {
             Long rowId = (long) m.getMemoID();
             ContentValues updateValues = new ContentValues();
 
@@ -62,14 +63,13 @@ public class MemoDataSource {
             updateValues.put("priority", m.getPriority());
 
             didSucceed = database.update("contact", updateValues, "_id=" + rowId, null) > 0;
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             Log.d("UPDATE ERROR", "ERROR UPDATING MEMO");
         }
         return didSucceed;
     }
 
-    public int getLastMemoID(){
+    public int getLastMemoID() {
         int lastId = -1;
         try {
             String query = "SELECT MAX(_id) FROM memo";
@@ -82,5 +82,31 @@ public class MemoDataSource {
             Log.e("DB_ERROR", "Error fetching last memo ID", e);
         }
         return lastId;
+    }
+
+    public ArrayList<Memo> getMemos() {
+        ArrayList<Memo> memoList = new ArrayList<>();
+        try {
+            String query = "Select * from memo";
+            Cursor cursor = database.rawQuery(query, null);
+
+            Memo newMemo;
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                newMemo = new Memo();
+                newMemo.setMemoID(cursor.getInt(0));
+                newMemo.setTitle(cursor.getString(1));
+                newMemo.setMemoText(cursor.getString(2));
+                newMemo.setDate(cursor.getString(3));
+                newMemo.setPriority(cursor.getString(4));
+                memoList.add(newMemo);
+                cursor.moveToNext();
+            }
+            cursor.close();
+        }
+        catch (Exception e) {
+            memoList = new ArrayList<Memo>();
+        }
+        return memoList;
     }
 }
