@@ -72,6 +72,8 @@ public class MemoAdapter extends RecyclerView.Adapter{
             radioButton.setButtonTintList(ColorStateList.valueOf(ContextCompat.getColor(radioButton.getContext(), R.color.yellow)));
         } else if(memoData.get(position).getPriority().equals("high")){
             radioButton.setButtonTintList(ColorStateList.valueOf(ContextCompat.getColor(radioButton.getContext(), R.color.red)));
+        } else {
+            radioButton.setButtonTintList(ColorStateList.valueOf(ContextCompat.getColor(radioButton.getContext(), R.color.grey)));
         }
     }
 

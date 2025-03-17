@@ -112,6 +112,8 @@ public class MainActivity extends AppCompatActivity {
                 m.setPriority("medium");
             } else if (high.isChecked()){
                 m.setPriority("high");
+            } else {
+                m.setPriority("");
             }
 
             dataSource.insertMemo(m);
