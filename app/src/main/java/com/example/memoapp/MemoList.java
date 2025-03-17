@@ -1,8 +1,11 @@
 package com.example.memoapp;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.RadioButton;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -16,9 +19,21 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 public class MemoList extends AppCompatActivity {
-
     ArrayList<Memo> memos;
     MemoDataSource ds = new MemoDataSource(this);
+
+    private final View.OnClickListener onMemoClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+
+            RecyclerView.ViewHolder viewHolder = (RecyclerView.ViewHolder) v.getTag();
+            int position = viewHolder.getAdapterPosition();
+            int memoID = memos.get(position).getMemoID();
+            Intent intent = new Intent(MemoList.this, MainActivity.class);
+            intent.putExtra("memoID", memoID);
+            startActivity(intent);
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +49,7 @@ public class MemoList extends AppCompatActivity {
             RecyclerView.LayoutManager RecyclerView = new LinearLayoutManager(this);
             memoList.setLayoutManager(RecyclerView);
             MemoAdapter memoAdapter = new MemoAdapter(memos);
+            memoAdapter.setOnMemoClickListener(onMemoClickListener);
             memoList.setAdapter(memoAdapter);
         } catch (Exception e) {
             Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();

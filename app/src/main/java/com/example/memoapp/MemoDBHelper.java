@@ -7,7 +7,7 @@ import android.util.Log;
 
 public class MemoDBHelper extends SQLiteOpenHelper {
 
-    private static final String DATABASE_NAME  = "memo.db";
+    private static final String DATABASE_NAME = "memo.db";
 
     private static final int DATABASE_VERSION = 1;
 
@@ -18,7 +18,7 @@ public class MemoDBHelper extends SQLiteOpenHelper {
                     "date TEXT NOT NULL," +
                     "priority TEXT NOT NULL);";
 
-    public MemoDBHelper (Context context){
+    public MemoDBHelper(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 

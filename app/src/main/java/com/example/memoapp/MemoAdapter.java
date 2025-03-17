@@ -1,11 +1,14 @@
 package com.example.memoapp;
 
+import android.content.res.ColorStateList;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -13,19 +16,22 @@ import java.util.ArrayList;
 public class MemoAdapter extends RecyclerView.Adapter{
     private ArrayList<Memo> memoData;
 
-    private View.OnClickListener onMemoClickListener;
+    private View.OnClickListener mOnMemoClickListener;
 
     public class MemoViewHolder extends RecyclerView.ViewHolder{
 
         public TextView textMemoName;
         public TextView textMemoDate;
+        public RadioButton listPriority;
 
         public MemoViewHolder(@NonNull View itemView) {
             super(itemView);
             textMemoName = itemView.findViewById(R.id.textMemoName);
             textMemoDate = itemView.findViewById(R.id.textMemoDate);
+            listPriority = itemView.findViewById(R.id.listPriority);
+
             itemView.setTag(this);
-            itemView.setOnClickListener(onMemoClickListener);
+            itemView.setOnClickListener(mOnMemoClickListener);
         }
         public TextView getTextViewName(){
             return textMemoName;
@@ -33,14 +39,17 @@ public class MemoAdapter extends RecyclerView.Adapter{
         public TextView getTextViewDate(){
             return textMemoDate;
         }
+        public RadioButton getRadioButton(){
+            return listPriority;
+        }
     }
 
     public MemoAdapter(ArrayList<Memo> arrayList){
         memoData = arrayList;
     }
 
-    public void setOnMemoClickListener(View.OnClickListener onMemoClickListener){
-        this.onMemoClickListener = onMemoClickListener;
+    public void setOnMemoClickListener(View.OnClickListener memoClickListener){
+        mOnMemoClickListener = memoClickListener;
     }
 
     @NonNull
@@ -55,6 +64,15 @@ public class MemoAdapter extends RecyclerView.Adapter{
         MemoViewHolder memoViewHolder = (MemoViewHolder) holder;
         memoViewHolder.getTextViewName().setText(memoData.get(position).getTitle());
         memoViewHolder.getTextViewDate().setText(memoData.get(position).getDate());
+        RadioButton radioButton = memoViewHolder.getRadioButton();
+
+        if(memoData.get(position).getPriority().equals("low")){
+            radioButton.setButtonTintList(ColorStateList.valueOf(ContextCompat.getColor(radioButton.getContext(), R.color.green)));
+        } else if(memoData.get(position).getPriority().equals("medium")){
+            radioButton.setButtonTintList(ColorStateList.valueOf(ContextCompat.getColor(radioButton.getContext(), R.color.yellow)));
+        } else if(memoData.get(position).getPriority().equals("high")){
+            radioButton.setButtonTintList(ColorStateList.valueOf(ContextCompat.getColor(radioButton.getContext(), R.color.red)));
+        }
     }
 
     @Override
