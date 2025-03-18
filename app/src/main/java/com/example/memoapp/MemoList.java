@@ -1,10 +1,13 @@
 package com.example.memoapp;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
@@ -21,6 +24,8 @@ import java.util.ArrayList;
 public class MemoList extends AppCompatActivity {
     ArrayList<Memo> memos;
     MemoDataSource ds = new MemoDataSource(this);
+    RecyclerView memoList;
+    MemoAdapter memoAdapter;
 
     private final View.OnClickListener onMemoClickListener = new View.OnClickListener() {
         @Override
@@ -41,9 +46,15 @@ public class MemoList extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_memo_list);
 
+        listImageButton();
+        memoSettingButton();
+
+        SharedPreferences sharedPreferences = getSharedPreferences("MemoPreferences", Context.MODE_PRIVATE);
+        String sortBy = sharedPreferences.getString("sortfield", "priority");
+
         try {
             ds.open();
-            memos = ds.getMemos();
+            memos = ds.getMemos(sortBy);
             ds.close();
             RecyclerView memoList = findViewById(R.id.rvMemo);
             RecyclerView.LayoutManager RecyclerView = new LinearLayoutManager(this);
@@ -54,11 +65,66 @@ public class MemoList extends AppCompatActivity {
         } catch (Exception e) {
             Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
+//        ds = new MemoDataSource(this);
+//        memoList = findViewById(R.id.rvMemo);
+//        memoList.setLayoutManager(new LinearLayoutManager(this));
+
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.memoList), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
+        });
+//        loadMemos();
+    }
+
+//        @Override
+//        protected void onResume() {
+//        super.onResume();
+//        loadMemos();
+//
+//
+//    }
+//    private void loadMemos(){
+//        SharedPreferences sharedPreferences = getSharedPreferences("MemoPreferences", Context.MODE_PRIVATE);
+//        String sortBy = sharedPreferences.getString("sortfield", "priority");
+//
+//        try {
+//            ds.open();
+//            memos = ds.getMemos(sortBy);
+//            ds.close();
+//
+//            // Ensure the adapter is always updated with the latest memos
+//            memoAdapter = new MemoAdapter(memos);
+//            memoAdapter.setOnMemoClickListener(onMemoClickListener);
+//            memoList.setAdapter(memoAdapter);
+//
+//        } catch (Exception e) {
+//            Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+//        }
+//
+//
+//    }
+    private void listImageButton() {
+        ImageButton ibList = findViewById(R.id.listImageButton);
+        ibList.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                Intent intent = new Intent(MemoList.this, MemoList.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            }
+        });
+    }
+
+    private void memoSettingButton(){
+        ImageButton msButton = findViewById(R.id.settingsImageButton);
+        msButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MemoList.this, MemoSetting.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            }
         });
     }
 }

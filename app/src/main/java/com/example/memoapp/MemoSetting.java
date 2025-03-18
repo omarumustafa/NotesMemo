@@ -1,8 +1,11 @@
 package com.example.memoapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
@@ -21,6 +24,10 @@ public class MemoSetting extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_memo_setting);
+
+        listImageButton();
+        memoSettingButton();
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.memoSettings), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -64,6 +71,33 @@ public class MemoSetting extends AppCompatActivity {
                 editor.putString("sortfield", "subject");
             }
             editor.apply();
+
+
+
+            setResult(RESULT_OK);
+            finish();
+        });
+    }
+    private void listImageButton() {
+        ImageButton ibList = findViewById(R.id.listImageButton);
+        ibList.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                Intent intent = new Intent(MemoSetting.this, MemoList.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            }
+        });
+    }
+
+    private void memoSettingButton(){
+        ImageButton msButton = findViewById(R.id.settingsImageButton);
+        msButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MemoSetting.this, MemoSetting.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            }
         });
     }
 }

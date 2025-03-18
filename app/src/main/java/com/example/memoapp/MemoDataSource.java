@@ -109,4 +109,50 @@ public class MemoDataSource {
         }
         return memoList;
     }
+    public ArrayList<Memo> getMemos(String sortBy) {
+        ArrayList<Memo> memoList = new ArrayList<>();
+        String orderBy;
+
+        switch (sortBy) {
+            case "date":
+                orderBy = "date DESC";  // Sort by newest first
+                break;
+            case "subject":
+                orderBy = "LOWER(title) COLLATE NOCASE  ASC";
+                break;
+            default:
+
+                orderBy = "CASE priority " +
+                        "WHEN 'high' THEN 3 " +
+                        "WHEN 'medium' THEN 2 " +
+                        "WHEN 'low' THEN 1 " +
+                        "ELSE 0 END DESC";
+                break;
+        }
+
+        try {
+            String query = "SELECT * FROM memo ORDER BY " + orderBy;
+            Cursor cursor = database.rawQuery(query, null);
+
+            if (cursor != null && cursor.moveToFirst()) {  // Ensure cursor has data
+                do {
+                    Memo newMemo = new Memo();
+                    newMemo.setMemoID(cursor.getInt(cursor.getColumnIndexOrThrow("_id")));
+                    newMemo.setTitle(cursor.getString(cursor.getColumnIndexOrThrow("title")));
+                    newMemo.setMemoText(cursor.getString(cursor.getColumnIndexOrThrow("memo")));
+                    newMemo.setDate(cursor.getString(cursor.getColumnIndexOrThrow("date")));
+                    newMemo.setPriority(cursor.getString(cursor.getColumnIndexOrThrow("priority")));
+                    memoList.add(newMemo);
+                } while (cursor.moveToNext());
+
+                cursor.close();
+            }
+        } catch (Exception e) {
+            Log.e("DB_ERROR", "Error fetching memos: " + e.getMessage());
+            memoList = new ArrayList<>();  // Ensure memoList is empty instead of null
+        }
+        return memoList;
+    }
+
+
 }

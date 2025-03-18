@@ -65,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
     private void memoSettingButton(){
         ImageButton msButton = findViewById(R.id.settingsImageButton);
         msButton.setOnClickListener(new View.OnClickListener() {
