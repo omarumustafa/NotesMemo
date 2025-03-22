@@ -52,6 +52,15 @@ public class MemoAdapter extends RecyclerView.Adapter{
         mOnMemoClickListener = memoClickListener;
     }
 
+    public Memo getMemoAtPosition(int position){
+        return memoData.get(position);
+    }
+    public void removeMemo(int position){
+        memoData.remove(position);
+        notifyItemRemoved(position);
+    }
+
+
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

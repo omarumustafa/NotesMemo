@@ -14,7 +14,7 @@ public class MemoDataSource {
 
     private SQLiteDatabase database;
 
-    private MemoDBHelper dbHelper;
+    public MemoDBHelper dbHelper;
 
     public MemoDataSource(Context context) {
         dbHelper = new MemoDBHelper(context);

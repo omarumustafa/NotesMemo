@@ -12,10 +12,12 @@ import android.widget.RadioButton;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -56,15 +58,42 @@ public class MemoList extends AppCompatActivity {
             ds.open();
             memos = ds.getMemos(sortBy);
             ds.close();
-            RecyclerView memoList = findViewById(R.id.rvMemo);
+            memoList = findViewById(R.id.rvMemo);
             RecyclerView.LayoutManager RecyclerView = new LinearLayoutManager(this);
             memoList.setLayoutManager(RecyclerView);
-            MemoAdapter memoAdapter = new MemoAdapter(memos);
+            memoAdapter = new MemoAdapter(memos);
             memoAdapter.setOnMemoClickListener(onMemoClickListener);
             memoList.setAdapter(memoAdapter);
         } catch (Exception e) {
             Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
+        // this gives it the item touch Helper
+        ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                int position = viewHolder.getAdapterPosition();
+                Memo memoToDelete = memoAdapter.getMemoAtPosition(position);
+
+                ds.open();
+                SQLiteDatabase db = ds.dbHelper.getWritableDatabase();
+                db.delete("memo", "_id=?", new String[]{String.valueOf(memoToDelete.getMemoID())});
+                ds.close();
+
+                memoAdapter.removeMemo(position);
+                Toast.makeText(MemoList.this, "Memo deleted", Toast.LENGTH_SHORT).show();
+            }
+        };
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
+        itemTouchHelper.attachToRecyclerView(memoList);
+
+
+
 //        ds = new MemoDataSource(this);
 //        memoList = findViewById(R.id.rvMemo);
 //        memoList.setLayoutManager(new LinearLayoutManager(this));
@@ -75,36 +104,36 @@ public class MemoList extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-//        loadMemos();
+        loadMemos();
     }
 
-//        @Override
-//        protected void onResume() {
-//        super.onResume();
-//        loadMemos();
-//
-//
-//    }
-//    private void loadMemos(){
-//        SharedPreferences sharedPreferences = getSharedPreferences("MemoPreferences", Context.MODE_PRIVATE);
-//        String sortBy = sharedPreferences.getString("sortfield", "priority");
-//
-//        try {
-//            ds.open();
-//            memos = ds.getMemos(sortBy);
-//            ds.close();
-//
-//            // Ensure the adapter is always updated with the latest memos
-//            memoAdapter = new MemoAdapter(memos);
-//            memoAdapter.setOnMemoClickListener(onMemoClickListener);
-//            memoList.setAdapter(memoAdapter);
-//
-//        } catch (Exception e) {
-//            Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-//        }
-//
-//
-//    }
+        @Override
+        protected void onResume() {
+        super.onResume();
+        loadMemos();
+
+
+    }
+    private void loadMemos(){
+        SharedPreferences sharedPreferences = getSharedPreferences("MemoPreferences", Context.MODE_PRIVATE);
+        String sortBy = sharedPreferences.getString("sortfield", "priority");
+
+        try {
+            ds.open();
+            memos = ds.getMemos(sortBy);
+            ds.close();
+
+            // Ensure the adapter is always updated with the latest memos
+            memoAdapter = new MemoAdapter(memos);
+            memoAdapter.setOnMemoClickListener(onMemoClickListener);
+            memoList.setAdapter(memoAdapter);
+
+        } catch (Exception e) {
+            Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+
+
+    }
     private void listImageButton() {
         ImageButton ibList = findViewById(R.id.listImageButton);
         ibList.setOnClickListener(new View.OnClickListener() {

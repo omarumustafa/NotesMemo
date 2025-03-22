@@ -9,7 +9,7 @@ public class MemoDBHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "memo.db";
 
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     private static final String CREATE_TABLE_MEMO =
             "CREATE TABLE memo (_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
