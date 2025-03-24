@@ -84,30 +84,20 @@ public class MemoDataSource {
         return lastId;
     }
 
-    public ArrayList<Memo> getMemos() {
-        ArrayList<Memo> memoList = new ArrayList<>();
-        try {
-            String query = "Select * from memo";
-            Cursor cursor = database.rawQuery(query, null);
+    public Memo getSpecificMemo(int memoID) {
+        Memo memo = new Memo();
+        String query = "SELECT * FROM  memo WHERE _id=" + memoID;
+        Cursor cursor = database.rawQuery(query, null);
+        if (cursor.moveToFirst()) {
+            memo.setMemoID(cursor.getInt(0));
+            memo.setTitle(cursor.getString(1));
+            memo.setMemoText(cursor.getString(2));
+            memo.setDate(cursor.getString(3));
+            memo.setPriority(cursor.getString(4));
 
-            Memo newMemo;
-            cursor.moveToFirst();
-            while (!cursor.isAfterLast()) {
-                newMemo = new Memo();
-                newMemo.setMemoID(cursor.getInt(0));
-                newMemo.setTitle(cursor.getString(1));
-                newMemo.setMemoText(cursor.getString(2));
-                newMemo.setDate(cursor.getString(3));
-                newMemo.setPriority(cursor.getString(4));
-                memoList.add(newMemo);
-                cursor.moveToNext();
-            }
             cursor.close();
         }
-        catch (Exception e) {
-            memoList = new ArrayList<Memo>();
-        }
-        return memoList;
+        return memo;
     }
     public ArrayList<Memo> getMemos(String sortBy) {
         ArrayList<Memo> memoList = new ArrayList<>();
@@ -153,6 +143,4 @@ public class MemoDataSource {
         }
         return memoList;
     }
-
-
 }

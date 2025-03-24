@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.Toast;
@@ -50,6 +51,7 @@ public class MemoList extends AppCompatActivity {
 
         listImageButton();
         memoSettingButton();
+        addMemoButton();
 
         SharedPreferences sharedPreferences = getSharedPreferences("MemoPreferences", Context.MODE_PRIVATE);
         String sortBy = sharedPreferences.getString("sortfield", "priority");
@@ -93,7 +95,6 @@ public class MemoList extends AppCompatActivity {
         itemTouchHelper.attachToRecyclerView(memoList);
 
 
-
 //        ds = new MemoDataSource(this);
 //        memoList = findViewById(R.id.rvMemo);
 //        memoList.setLayoutManager(new LinearLayoutManager(this));
@@ -107,14 +108,14 @@ public class MemoList extends AppCompatActivity {
         loadMemos();
     }
 
-        @Override
-        protected void onResume() {
+    @Override
+    protected void onResume() {
         super.onResume();
         loadMemos();
 
-
     }
-    private void loadMemos(){
+
+    private void loadMemos() {
         SharedPreferences sharedPreferences = getSharedPreferences("MemoPreferences", Context.MODE_PRIVATE);
         String sortBy = sharedPreferences.getString("sortfield", "priority");
 
@@ -134,6 +135,7 @@ public class MemoList extends AppCompatActivity {
 
 
     }
+
     private void listImageButton() {
         ImageButton ibList = findViewById(R.id.listImageButton);
         ibList.setOnClickListener(new View.OnClickListener() {
@@ -145,13 +147,24 @@ public class MemoList extends AppCompatActivity {
         });
     }
 
-    private void memoSettingButton(){
+    private void memoSettingButton() {
         ImageButton msButton = findViewById(R.id.settingsImageButton);
         msButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MemoList.this, MemoSetting.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            }
+        });
+    }
+
+    private void addMemoButton() {
+        Button addMemoButton = findViewById(R.id.addMemoButton);
+        addMemoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MemoList.this, MainActivity.class);
                 startActivity(intent);
             }
         });

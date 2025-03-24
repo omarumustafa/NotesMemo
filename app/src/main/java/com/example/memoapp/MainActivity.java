@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,6 +22,7 @@ import java.util.Calendar;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
+    private Memo currentMemo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,8 +43,13 @@ public class MainActivity extends AppCompatActivity {
 
         initSaveButton();
 
-
-
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            initMemo(extras.getInt("memoID"));
+        }
+        else {
+            currentMemo = new Memo();
+        }
     }
 
     private void setRadioButtonColor() {
@@ -123,6 +130,39 @@ public class MainActivity extends AppCompatActivity {
 
 
         });
+    }
+
+    private void initMemo(int id) {
+
+        MemoDataSource ds = new MemoDataSource(MainActivity.this);
+        try {
+            ds.open();
+            currentMemo = ds.getSpecificMemo(id);
+            ds.close();
+        }
+        catch (Exception e) {
+            Toast.makeText(this, "Load Memo Failed", Toast.LENGTH_SHORT).show();
+        }
+
+        EditText title = findViewById(R.id.editMemoTitle);
+        EditText memo = findViewById(R.id.editMemoDesc);
+        EditText date = findViewById(R.id.editDate);
+        RadioButton low = findViewById(R.id.radioButtonLow);
+        RadioButton medium = findViewById(R.id.radioButtonMedium);
+        RadioButton high = findViewById(R.id.radioButtonHigh);
+
+        title.setText(currentMemo.getTitle());
+        memo.setText(currentMemo.getMemoText());
+        date.setText(currentMemo.getDate());
+
+        if(currentMemo.getPriority().equals("low")){
+            low.setChecked(true);
+        } else if(currentMemo.getPriority().equals("medium")){
+            medium.setChecked(true);
+        } else if(currentMemo.getPriority().equals("high")){
+            high.setChecked(true);
+        }
+
     }
 }
 
