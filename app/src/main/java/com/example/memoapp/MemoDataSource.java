@@ -62,7 +62,7 @@ public class MemoDataSource {
             updateValues.put("date", m.getDate());
             updateValues.put("priority", m.getPriority());
 
-            didSucceed = database.update("contact", updateValues, "_id=" + rowId, null) > 0;
+            didSucceed = database.update("memo", updateValues, "_id=" + rowId, null) > 0;
         } catch (Exception e) {
             Log.d("UPDATE ERROR", "ERROR UPDATING MEMO");
         }

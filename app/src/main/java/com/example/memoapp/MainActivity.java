@@ -94,13 +94,11 @@ public class MainActivity extends AppCompatActivity {
         editDate.setText(date);
     }
 
-    private void initSaveButton(){
+    private void initSaveButton() {
         Button saveButton = findViewById(R.id.saveButton);
 
-        saveButton.setOnClickListener(v ->{
-            Memo m = new Memo();
+        saveButton.setOnClickListener(v -> {
             MemoDataSource dataSource = new MemoDataSource(MainActivity.this);
-
             dataSource.open();
 
             String title = ((EditText)findViewById(R.id.editMemoTitle)).getText().toString();
@@ -110,27 +108,30 @@ public class MainActivity extends AppCompatActivity {
             RadioButton medium = findViewById(R.id.radioButtonMedium);
             RadioButton high = findViewById(R.id.radioButtonHigh);
 
-            m.setTitle(title);
-            m.setMemoText(memo);
-            m.setDate(date);
+            currentMemo.setTitle(title);
+            currentMemo.setMemoText(memo);
+            currentMemo.setDate(date);
 
-            if(low.isChecked()){
-                m.setPriority("low");
-            } else if(medium.isChecked()){
-                m.setPriority("medium");
-            } else if (high.isChecked()){
-                m.setPriority("high");
+            if (low.isChecked()) {
+                currentMemo.setPriority("low");
+            } else if (medium.isChecked()) {
+                currentMemo.setPriority("medium");
+            } else if (high.isChecked()) {
+                currentMemo.setPriority("high");
             } else {
-                m.setPriority("");
+                currentMemo.setPriority("");
             }
 
-            dataSource.insertMemo(m);
+            if (currentMemo.getMemoID() == -1) {
+                dataSource.insertMemo(currentMemo);
+            } else {
+                dataSource.updateMemo(currentMemo);
+            }
 
             dataSource.close();
-
-
         });
     }
+
 
     private void initMemo(int id) {
 
