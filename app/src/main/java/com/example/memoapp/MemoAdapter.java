@@ -23,12 +23,15 @@ public class MemoAdapter extends RecyclerView.Adapter{
         public TextView textMemoName;
         public TextView textMemoDate;
         public RadioButton listPriority;
+        public TextView textMemoSnippet;
 
         public MemoViewHolder(@NonNull View itemView) {
             super(itemView);
             textMemoName = itemView.findViewById(R.id.textMemoName);
             textMemoDate = itemView.findViewById(R.id.textMemoDate);
             listPriority = itemView.findViewById(R.id.listPriority);
+            textMemoSnippet = itemView.findViewById(R.id.textMemoSnippet);
+
 
             itemView.setTag(this);
             itemView.setOnClickListener(mOnMemoClickListener);
@@ -42,6 +45,7 @@ public class MemoAdapter extends RecyclerView.Adapter{
         public RadioButton getRadioButton(){
             return listPriority;
         }
+        public TextView getTextViewSnippet(){return textMemoSnippet;}
     }
 
     public MemoAdapter(ArrayList<Memo> arrayList){
@@ -74,6 +78,10 @@ public class MemoAdapter extends RecyclerView.Adapter{
         memoViewHolder.getTextViewName().setText(memoData.get(position).getTitle());
         memoViewHolder.getTextViewDate().setText(memoData.get(position).getDate());
         RadioButton radioButton = memoViewHolder.getRadioButton();
+
+        String fullText = memoData.get(position).getMemoText();
+        String snippet = fullText.length() > 100 ? fullText.substring(0, 100) + "..." : fullText;
+        memoViewHolder.getTextViewSnippet().setText(snippet);
 
         if(memoData.get(position).getPriority().equals("low")){
             radioButton.setButtonTintList(ColorStateList.valueOf(ContextCompat.getColor(radioButton.getContext(), R.color.green)));
