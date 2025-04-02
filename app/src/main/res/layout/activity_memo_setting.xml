@@ -5,7 +5,9 @@
     android:id="@+id/memoSettings"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MemoSetting">
+    tools:context=".MemoSetting"
+    android:background="@drawable/border">
+
 
     <LinearLayout
         android:id="@+id/sortOptionsLayout"
@@ -15,6 +17,7 @@
         android:layout_marginTop="16dp"
         android:orientation="vertical"
         android:padding="8dp"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -35,7 +38,8 @@
             android:id="@+id/sortOptionsGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            >
 
             <RadioButton
                 android:id="@+id/sortByPriority"
