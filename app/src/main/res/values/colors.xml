@@ -6,4 +6,10 @@
     <color name="green">#43A047</color>
     <color name="yellow">#FFEB3B</color>
     <color name="red">#F44336</color>
+    <color name="soft_lavender">#E6E6FA</color>
+    <color name="purple">#9C27B0</color>
+    <color name="systempurple">#6A4FB3</color>
+
+
+
 </resources>
